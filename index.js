@@ -83,8 +83,7 @@ restService.post("/repos", function (req, res) {
     }*/
   }
 
-  const $ = await getRepos();
-
+  await getRepos();
 
   var speechResponse = {
     google: {
