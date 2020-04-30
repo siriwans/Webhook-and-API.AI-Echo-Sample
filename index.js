@@ -15,8 +15,8 @@ restService.use(
 restService.use(bodyParser.json());
 
 restService.post("/repos", function (req, res) {
-  /*var speech =
-    req.body.queryResult &&
+  var speech = req.body.queryResult.parameters.userName;
+  /*  req.body.queryResult &&
       req.body.queryResult.parameters &&
       req.body.queryResult.parameters.userName
       ? req.body.queryResult.parameters.userName
@@ -50,7 +50,7 @@ restService.post("/repos", function (req, res) {
 
   const getRepos = async () => {
     try {
-      return await axios.get(`https://api.github.com/users/${req.body.queryResult.parameters.userName}/repos`);
+      return await axios.get(`https://api.github.com/users/${speech}/repos`);
       //return await axios.get(`https://api.github.com/users/siriwans/repos`);
     } catch (error) {
       console.error(error);
