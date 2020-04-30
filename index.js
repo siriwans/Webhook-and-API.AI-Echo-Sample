@@ -37,7 +37,9 @@ restService.post("/repos", async function (req, res) {
 
   const repos = await countRepos()
 
-  // if (repos.data) {
+  if (repos.data) {
+      testing = 'inside'
+  }
   //   testing = "inside1"
   //   speech = "repos.data true"
   //   //speech = 'User ' + req.body.queryResult.parameters.userName + ' has ' + repos.data.json.length + ' number of repositories.';
