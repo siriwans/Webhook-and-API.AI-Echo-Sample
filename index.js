@@ -15,7 +15,7 @@ restService.use(
 restService.use(bodyParser.json());
 
 restService.post("/repos", function (req, res) {
-  var speech =
+  /*var speech =
     req.body.queryResult &&
       req.body.queryResult.parameters &&
       req.body.queryResult.parameters.userName
@@ -46,7 +46,7 @@ restService.post("/repos", function (req, res) {
       displayText: speech,
       source: "webhook-echo-sample"
     });
-  }
+  }*/
 
   const getRepos = async () => {
     try {
