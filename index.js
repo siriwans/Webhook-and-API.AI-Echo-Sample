@@ -57,7 +57,7 @@ restService.post("/repos", function (req, res) {
     }*/
   }
   
-  getRepos().then(response => console.log(response));
+  (async () => console.log(await getRepos()))()
 
   var speechResponse = {
     google: {
