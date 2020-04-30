@@ -21,11 +21,37 @@ restService.post("/repos", function (req, res) {
       req.body.queryResult.parameters.userName
       ? req.body.queryResult.parameters.userName
       : "Seems like some problem. Speak again.";
+  if (speech === "Seems like some problem. Speak again.")
+  {
+    var speechResponse = {
+      google: {
+        expectUserResponse: true,
+        richResponse: {
+          items: [
+            {
+              simpleResponse: {
+                textToSpeech: speech
+              }
+            }
+          ]
+        }
+      }
+    };
+  
+    return res.json({
+      payload: speechResponse,
+      //data: speechResponse,
+      fulfillmentText: speech,
+      speech: speech,
+      displayText: speech,
+      source: "webhook-echo-sample"
+    });
+  }
 
   const getRepos = async () => {
     try {
-      //return await axios.get(`https://api.github.com/users/${req.body.queryResult.parameters.userName}/repos`);
-      return await axios.get(`https://api.github.com/users/siriwans/repos`);
+      return await axios.get(`https://api.github.com/users/${req.body.queryResult.parameters.userName}/repos`);
+      //return await axios.get(`https://api.github.com/users/siriwans/repos`);
     } catch (error) {
       console.error(error);
     }
