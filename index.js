@@ -16,49 +16,53 @@ restService.use(bodyParser.json());
 
 restService.post("/repos", async function (req, res) {
   var speech = req.body.queryResult.parameters.userName;
-  /*  req.body.queryResult &&
-      req.body.queryResult.parameters &&
-      req.body.queryResult.parameters.userName
-      ? req.body.queryResult.parameters.userName
-      : "Seems like some problem. Speak again.";
-  */
+  req.body.queryResult &&
+    req.body.queryResult.parameters &&
+    req.body.queryResult.parameters.userName
+    ? req.body.queryResult.parameters.userName
+    : "Seems like some problem. Speak again.";
+    
+  if (speech === "Seems like some problem. Speak again.") {
+    var speechResponse = {
+      google: {
+        expectUserResponse: true,
+        richResponse: {
+          items: [
+            {
+              simpleResponse: {
+                textToSpeech: speech
+              }
+            }
+          ]
+        }
+      }
+    };
 
-  var testing = "";
-  var testing2 = "nothing";
+    return res.json({
+      payload: speechResponse,
+      //data: speechResponse,
+      fulfillmentText: speech,
+      speech: speech,
+      displayText: speech,
+      source: "webhook-echo-sample"
+    });
+  }
 
   const getRepos = async () => {
     try {
-      testing = "IN GETREPOS"
       var repos = await axios.get('https://api.github.com/users/siriwans/repos');
-      testing2 = 'hello'
       if (repos.data.statusText === 'OK') {
-        testing = req.body.queryResult.parameters.userName;
-        //speech = 'User ' + req.body.queryResult.parameters.userName + ' has ' + repos.data.json.length + ' number of repositories.';
-        speech = "YAYYYYYY";
+        speech = 'User ' + req.body.queryResult.parameters.userName + ' has ' + repos.data.json.length + ' number of repositories.';
       }
       else {
-        // speech = 'Cannot get the number of repos for' + req.body.queryResult.parameters.userName;
-        speech = "YAYYYYYY";
+        speech = 'Cannot get the number of repos for' + req.body.queryResult.parameters.userName;
       }
     } catch (error) {
-      testing2 = 'error'
       console.error(error);
     }
   }
 
-  const countRepos = async () => {
-    const repos = await getRepos();
-    /*if (repos.data.statusText === 'OK') {
-      //speech = 'User ' + req.body.queryResult.parameters.userName + ' has ' + repos.data.json.length + ' number of repositories.';
-      speech = "YAYYYYYY";
-    }
-    else {
-      // speech = 'Cannot get the number of repos for' + req.body.queryResult.parameters.userName;
-      speech = "YAYYYYYY";
-    }*/
-  }
-  
-  await countRepos()
+  await getRepos()
 
   var speechResponse = {
     google: {
@@ -80,7 +84,7 @@ restService.post("/repos", async function (req, res) {
     //data: speechResponse,
     fulfillmentText: speech,
     speech: speech,
-    displayText: testing + testing2,
+    displayText: speech,
     source: "webhook-echo-sample"
   });
 });
