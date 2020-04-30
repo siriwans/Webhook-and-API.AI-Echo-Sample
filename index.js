@@ -18,8 +18,8 @@ restService.post("/repos", function (req, res) {
   var speech =
     req.body.queryResult &&
       req.body.queryResult.parameters &&
-      req.body.queryResult.parameters.echoText
-      ? req.body.queryResult.parameters.echoText
+      req.body.queryResult.parameters.userName
+      ? req.body.queryResult.parameters.userName
       : "Seems like some problem. Speak again.";
 
   // if (req.body.queryResult.parameters.echoText) {
