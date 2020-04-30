@@ -22,17 +22,17 @@ restService.post("/repos", async function (req, res) {
     ? req.body.queryResult.parameters.userName
     : "Seems like some problem. Speak again.";
 
-  var testing = "nothing"
+  var testing;
   
   const getRepos = async () => {
     try {
       var repos = await axios.get('https://api.github.com/users/siriwans/repos');
-      testing = repos.data
+      testing = repos.data;
       if (repos.data.statusText === 'OK') {
         speech = 'User ' + req.body.queryResult.parameters.userName + ' has ' + repos.data.json.length + ' number of repositories.';
       }
       else {
-        s;peech = 'Cannot get the number of repos for ' + req.body.queryResult.parameters.userName;
+        speech = 'Cannot get the number of repos for ' + req.body.queryResult.parameters.userName;
       }
     } catch (error) {
       console.error(error);
@@ -61,7 +61,7 @@ restService.post("/repos", async function (req, res) {
     //data: speechResponse,
     fulfillmentText: speech,
     speech: speech,
-    displayText: speech,
+    displayText: testing,
     source: "webhook-echo-sample"
   });
 });
