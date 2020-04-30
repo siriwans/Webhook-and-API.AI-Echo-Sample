@@ -22,31 +22,24 @@ restService.post("/repos", function (req, res) {
       ? req.body.queryResult.parameters.userName
       : "Seems like some problem. Speak again.";
 
-  var username = req.body.queryResult.parameters.userName ? 
-    req.body.queryResult.parameters.userName : "";
+  const getRepos = async () => {
+    try {
+      return await axios.get(`https://api.github.com/users/${req.body.queryResult.parameters.userName}/repos`);
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
-  // if (req.body.queryResult.parameters.echoText) {
-  //   var username = req.body.queryResult.parameters.echoText;
-  //   const getRepos = async () => {
-  //     try {
-  //       return await axios.get(`https://api.github.com/users/${username}/repos`);
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   }
-
-  //   const countRepos = async () => {
-  //     const repos = await getRepos();
-  //     if (repos.data.statusText === 'OK') {
-  //       speech = 'User ' + username + ' has ' + repos.data.json.length + ' number of repositories.';
-  //     }
-  //     else {
-  //       speech = 'Cannot get the number of repos for' + username;
-  //     }
-  //   }
-
-  //   countRepos();
-  // }
+  const countRepos = async () => {
+    const repos = await getRepos();
+    if (repos.data.statusText === 'OK') {
+      speech = 'User ' + req.body.queryResult.parameters.userName + ' has ' + repos.data.json.length + ' number of repositories.';
+    }
+    else {
+      speech = 'Cannot get the number of repos for' + req.body.queryResult.parameters.userName;
+    }
+  }
+  countRepos();
 
   var speechResponse = {
     google: {
