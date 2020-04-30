@@ -38,9 +38,10 @@ restService.post("/repos", async function (req, res) {
 
   if (!error && repos.status === 200) {
     speech = 'User ' + req.body.queryResult.parameters.userName + ' has ' + Object.keys(repos.data).length + ' number of repositories.';
+    speech = 'Cannot ' + req.body.queryResult.parameters.userName + '.'
   }
   else {
-    speech = 'Cannot get number of repos for ' + req.body.queryResult.parameters.userName + "."
+    speech = 'Cannot get number of repos for ' + req.body.queryResult.parameters.userName + '.'
   }
 
   var speechResponse = {
