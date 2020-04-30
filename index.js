@@ -49,10 +49,11 @@ restService.post("/repos", function (req, res) {
   }*/
 
   var testing = "";
-  const getRepos = () => {
+  var testing2 = "";
+  const getRepos = async () => {
     try {
       testing = "IN GETREPOS"
-      return axios.get(`https://api.github.com/users/${req.body.queryResult.parameters.userName}/repos`);
+      return await axios.get(`https://api.github.com/users/${req.body.queryResult.parameters.userName}/repos`);
       //return await axios.get(`https://api.github.com/users/siriwans/repos`);
     } catch (error) {
       console.error(error);
@@ -60,21 +61,16 @@ restService.post("/repos", function (req, res) {
   }
 
   const countRepos = async () => {
-    testing = "IN COUNTREPOS"
-    const repos = getRepos()
-      .then(response => {
-        if (response.data.statusText === 'OK') {
-          //speech = 'User ' + req.body.queryResult.parameters.userName + ' has ' + repos.data.json.length + ' number of repositories.';
-          speech = "YAYYYYYY";
-        }
-        else {
-          // speech = 'Cannot get the number of repos for' + req.body.queryResult.parameters.userName;
-          speech = "YAYYYYYY";
-        }
-      })
-      .catch(error => {
-        console.log(error)
-      })
+    const repos = await getRepos();
+    testing2 = "IN COUNTREPOS"
+    if (repos.data.statusText === 'OK') {
+      //speech = 'User ' + req.body.queryResult.parameters.userName + ' has ' + repos.data.json.length + ' number of repositories.';
+      speech = "YAYYYYYY";
+    }
+    else {
+      // speech = 'Cannot get the number of repos for' + req.body.queryResult.parameters.userName;
+      speech = "YAYYYYYY";
+    }
   }
   countRepos();
 
@@ -99,7 +95,7 @@ restService.post("/repos", function (req, res) {
     //data: speechResponse,
     fulfillmentText: speech,
     speech: speech,
-    displayText: testing,
+    displayText: testing + testing2,
     source: "webhook-echo-sample"
   });
 });
