@@ -37,6 +37,7 @@ restService.post("/repos", async function (req, res) {
   }
 
   const repos = await getRepos()
+  testing = error.toString();
   if (error)
   {
     speech = "wrong";
