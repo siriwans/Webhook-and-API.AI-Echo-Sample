@@ -32,19 +32,18 @@ restService.post("/repos", async function (req, res) {
   }
 
   const countRepos = async () => {
-    const repos = await getRepos()
-    testing = repos.data;
-
-    if (repos.data) {
-      speech = 'User ' + req.body.queryResult.parameters.userName + ' has ' + repos.data.json.length + ' number of repositories.';
-    }
-    else
-    {
-      speech = 'Cannot get number of repos for ' + req.body.queryResult.parameters.userName + "."
-    }
+    return await getRepos()
   }
 
-  await countRepos()
+  const repos = await countRepos()
+  
+  if (repos.data) {
+    speech = 'User ' + req.body.queryResult.parameters.userName + ' has ' + repos.data.json.length + ' number of repositories.';
+  }
+  else
+  {
+    speech = 'Cannot get number of repos for ' + req.body.queryResult.parameters.userName + "."
+  }
 
   var speechResponse = {
     google: {
