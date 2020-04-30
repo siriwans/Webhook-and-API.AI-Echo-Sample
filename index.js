@@ -22,27 +22,29 @@ restService.post("/repos", function (req, res) {
       ? req.body.queryResult.parameters.echoText
       : "Seems like some problem. Speak again.";
 
-  var username = req.body.queryResult.parameters.echoText;
+  if (req.body.queryResult.parameters.echoText) {
+    var username = req.body.queryResult.parameters.echoText;
+    const getRepos = async () => {
+      try {
+        return await axios.get(`https://api.github.com/users/${username}/repos`);
+      } catch (error) {
+        console.error(error);
+      }
+    }
 
-  // const getRepos = async () => {
-  //   try {
-  //     return await axios.get(`https://api.github.com/users/${username}/repos`);
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // }
+    const countRepos = async () => {
+      const repos = await getRepos();
+      if (repos.data.statusText === 'OK') {
+        speech = 'User ' + username + ' has ' + repos.data.json.length + ' number of repositories.';
+      }
+      else {
+        speech = 'Cannot get the number of repos for' + username;
+      }
+    }
 
-  // const countRepos = async () => {
-  //   const repos = await getRepos();
-  //   if (repos.data.statusText === 'OK') {
-  //     speech = 'User ' + username + ' has ' + repos.data.json.length + ' number of repositories.';
-  //   }
-  //   else {
-  //     speech = 'Cannot get the number of repos for' + username;
-  //   }
-  // }
+    countRepos();
+  }
 
-  // countRepos();
   var speechResponse = {
     google: {
       expectUserResponse: true,
