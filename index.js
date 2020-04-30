@@ -50,7 +50,9 @@ restService.post("/repos", function (req, res) {
 
   var testing = "";
   var testing2 = "nothing";
-  const getRepos = async () => {
+
+  async function getRepos() 
+  {
     try {
       testing = "IN GETREPOS"
       var repos = await axios.get('https://api.github.com/users/siriwans/repos');
@@ -82,7 +84,7 @@ restService.post("/repos", function (req, res) {
     }*/
   }
 
-  var idk = countRepos();
+  getRepos();
 
 
   var speechResponse = {
