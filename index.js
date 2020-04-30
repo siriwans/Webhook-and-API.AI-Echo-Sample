@@ -51,13 +51,11 @@ restService.post("/repos", function (req, res) {
   var testing = "";
   var testing2 = "nothing";
 
-  function getRepos() 
+  async function getRepos() 
   {
     try {
       testing = "IN GETREPOS"
-      var repos = axios.get('https://api.github.com/users/siriwans/repos');
-      testing = req.body.queryResult.parameters.userName;
-      speech = repos.data.json;
+      var repos = await axios.get('https://api.github.com/users/siriwans/repos');
       if (repos.data.statusText === 'OK') {
         testing = req.body.queryResult.parameters.userName;
         //speech = 'User ' + req.body.queryResult.parameters.userName + ' has ' + repos.data.json.length + ' number of repositories.';
@@ -68,7 +66,7 @@ restService.post("/repos", function (req, res) {
         speech = "YAYYYYYY";
       }
     } catch (error) {
-      testing2 = "error"
+      testing2 = 'error'
       console.error(error);
     }
   }
@@ -85,7 +83,7 @@ restService.post("/repos", function (req, res) {
     }*/
   }
 
-  getRepos();
+  const $ = await getRepos();
 
 
   var speechResponse = {
