@@ -23,34 +23,24 @@ restService.post("/repos", async function (req, res) {
 
   var testing = 'nothing';
   var testing2 = 'uhhhh'
-  var error = false;
+  var myerror = false;
 
   const getRepos = async () => {
     try {
       return await axios.get(`https://api.github.com/users/${req.body.queryResult.parameters.userName}/repos`);
     } catch (error) {
-      error = true;
+      myerror = true;
       testing = "error";
-      speech = "wrong"
-      //speech = 'Cannot get number of repos for ' + req.body.queryResult.parameters.userName + '.';
+      speech = 'Cannot get number of repos for ' + req.body.queryResult.parameters.userName + '.';
       console.error(error);
     }
   }
 
   const repos = await getRepos()
-  testing2 = error.toString();
-  if (error)
+  if (myerror)
   {
-    speech = "wrong";
-  }
-  else
-  {
-    speech = "correct";
-  }
-
-  /*if (!error) {
     speech = 'User ' + req.body.queryResult.parameters.userName + ' has ' + Object.keys(repos.data).length + ' number of repositories.';
-  }*/
+  }
 
   var speechResponse = {
     google: {
