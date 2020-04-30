@@ -22,6 +22,8 @@ restService.post("/repos", function (req, res) {
       ? req.body.queryResult.parameters.userName
       : "Seems like some problem. Speak again.";
 
+  var username = req.body.queryResult.parameters.userName;
+
   // if (req.body.queryResult.parameters.echoText) {
   //   var username = req.body.queryResult.parameters.echoText;
   //   const getRepos = async () => {
