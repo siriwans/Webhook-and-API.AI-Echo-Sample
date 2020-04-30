@@ -48,9 +48,11 @@ restService.post("/repos", function (req, res) {
     });
   }*/
 
+  var testing = "";
   const getRepos = async () => {
     try {
-      return await axios.get(`https://api.github.com/users/${speech}/repos`);
+      testing = "IN GETREPOS"
+      return await axios.get(`https://api.github.com/users/${req.body.queryResult.parameters.userName}/repos`);
       //return await axios.get(`https://api.github.com/users/siriwans/repos`);
     } catch (error) {
       console.error(error);
@@ -59,6 +61,7 @@ restService.post("/repos", function (req, res) {
 
   const countRepos = async () => {
     const repos = await getRepos();
+    testing = "IN COUNTREPOS"
     if (repos.data.statusText === 'OK') {
       //speech = 'User ' + req.body.queryResult.parameters.userName + ' has ' + repos.data.json.length + ' number of repositories.';
       speech = "YAYYYYYY";
@@ -69,6 +72,7 @@ restService.post("/repos", function (req, res) {
     }
   }
   countRepos();
+
 
   var speechResponse = {
     google: {
@@ -90,7 +94,7 @@ restService.post("/repos", function (req, res) {
     //data: speechResponse,
     fulfillmentText: speech,
     speech: speech,
-    displayText: speech,
+    displayText: testing,
     source: "webhook-echo-sample"
   });
 });
