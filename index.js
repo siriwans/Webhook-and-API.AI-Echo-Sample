@@ -63,7 +63,7 @@ restService.post("/repos", function (req, res) {
     testing = "IN COUNTREPOS"
     const repos = getRepos()
       .then(response => {
-        if (repos.data.statusText === 'OK') {
+        if (response.data.statusText === 'OK') {
           //speech = 'User ' + req.body.queryResult.parameters.userName + ' has ' + repos.data.json.length + ' number of repositories.';
           speech = "YAYYYYYY";
         }
