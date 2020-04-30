@@ -36,13 +36,17 @@ restService.post("/repos", async function (req, res) {
   }
 
   const repos = await countRepos()
-  
+
   if (repos.data) {
-    speech = 'User ' + req.body.queryResult.parameters.userName + ' has ' + repos.data.json.length + ' number of repositories.';
+    testing = "inside1"
+    speech = "repos.data true"
+    //speech = 'User ' + req.body.queryResult.parameters.userName + ' has ' + repos.data.json.length + ' number of repositories.';
   }
   else
   {
-    speech = 'Cannot get number of repos for ' + req.body.queryResult.parameters.userName + "."
+    testing = "inside2"
+    speech = "repos.data false"
+    //speech = 'Cannot get number of repos for ' + req.body.queryResult.parameters.userName + "."
   }
 
   var speechResponse = {
