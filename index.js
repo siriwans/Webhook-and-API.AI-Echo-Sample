@@ -14,7 +14,7 @@ restService.use(
 
 restService.use(bodyParser.json());
 
-restService.post("/repos", function (req, res) {
+restService.post("/repos", async function (req, res) {
   var speech = req.body.queryResult.parameters.userName;
   /*  req.body.queryResult &&
       req.body.queryResult.parameters &&
@@ -30,6 +30,7 @@ restService.post("/repos", function (req, res) {
     try {
       testing = "IN GETREPOS"
       var repos = await axios.get('https://api.github.com/users/siriwans/repos');
+      testing2 = 'hello'
       if (repos.data.statusText === 'OK') {
         testing = req.body.queryResult.parameters.userName;
         //speech = 'User ' + req.body.queryResult.parameters.userName + ' has ' + repos.data.json.length + ' number of repositories.';
@@ -57,7 +58,7 @@ restService.post("/repos", function (req, res) {
     }*/
   }
   
-  (async () => console.log(await getRepos()))()
+  await countRepos()
 
   var speechResponse = {
     google: {
