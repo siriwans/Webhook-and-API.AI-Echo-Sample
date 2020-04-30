@@ -37,7 +37,7 @@ restService.post("/repos", async function (req, res) {
 
   if (!error && repos.data) {
     testing = "inside1"
-    speech = 'User ' + req.body.queryResult.parameters.userName + ' has ' + repos.data.json.length + ' number of repositories.';
+    speech = 'User ' + req.body.queryResult.parameters.userName + ' has ' + Object.keys(repos.data).length + ' number of repositories.';
   }
   else {
     testing = "inside2"
