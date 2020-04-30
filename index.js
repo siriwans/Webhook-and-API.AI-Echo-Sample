@@ -29,7 +29,7 @@ restService.post("/repos", async function (req, res) {
       return await axios.get(`https://api.github.com/users/${req.body.queryResult.parameters.userName}/repos`);
     } catch (error) {
       error = true;
-      testing = "error"
+      testing = "error";
       console.error(error);
     }
   }
@@ -37,11 +37,9 @@ restService.post("/repos", async function (req, res) {
   const repos = await getRepos()
 
   if (!error && repos.status === 200) {
-    speech = 'User ' + req.body.queryResult.parameters.userName + ' has ' + Object.keys(repos.data).length + ' number of repositories.';
-    speech = 'Cannot ' + req.body.queryResult.parameters.userName + '.'
-  }
+    speech = 'User ' + req.body.queryResult.parameters.userName + ' has ' + Object.keys(repos.data).length + ' number of repositories.';  }
   else {
-    speech = 'Cannot get number of repos for ' + req.body.queryResult.parameters.userName + '.'
+    speech = 'Cannot get number of repos for ' + req.body.queryResult.parameters.userName + '.';
   }
 
   var speechResponse = {
