@@ -30,16 +30,17 @@ restService.post("/repos", async function (req, res) {
     } catch (error) {
       error = true;
       testing = "error";
-      speech = 'Cannot get number of repos for ' + req.body.queryResult.parameters.userName + '.';
+      //speech = 'Cannot get number of repos for ' + req.body.queryResult.parameters.userName + '.';
       console.error(error);
     }
   }
 
   const repos = await getRepos()
+  speech = 'User ' + req.body.queryResult.parameters.userName + ' has ' + Object.keys(repos.data).length + ' number of repositories.';
 
-  if (!error) {
+  /*if (!error) {
     speech = 'User ' + req.body.queryResult.parameters.userName + ' has ' + Object.keys(repos.data).length + ' number of repositories.';
-  }
+  }*/
 
   var speechResponse = {
     google: {
