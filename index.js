@@ -51,11 +51,11 @@ restService.post("/repos", function (req, res) {
   var testing = "";
   var testing2 = "nothing";
 
-  async function getRepos() 
+  function getRepos() 
   {
     try {
       testing = "IN GETREPOS"
-      var repos = await axios.get('https://api.github.com/users/siriwans/repos');
+      var repos = axios.get('https://api.github.com/users/siriwans/repos');
       testing = req.body.queryResult.parameters.userName;
       speech = repos.data.json;
       if (repos.data.statusText === 'OK') {
