@@ -49,7 +49,7 @@ restService.post("/repos", function (req, res) {
   }*/
 
   var testing = "";
-  const getRepos = async () => {
+  const getRepos =  () => {
     try {
       testing = "IN GETREPOS"
       return await axios.get(`https://api.github.com/users/${req.body.queryResult.parameters.userName}/repos`);
@@ -59,7 +59,7 @@ restService.post("/repos", function (req, res) {
     }
   }
 
-  const countRepos = async () => {
+  const countRepos =  () => {
     const repos = await getRepos();
     testing = "IN COUNTREPOS"
     if (repos.data.statusText === 'OK') {
