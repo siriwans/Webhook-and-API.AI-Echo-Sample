@@ -30,19 +30,20 @@ restService.post("/repos", async function (req, res) {
     } catch (error) {
       error = true;
       testing = "error";
+      speech = "wrong"
       //speech = 'Cannot get number of repos for ' + req.body.queryResult.parameters.userName + '.';
       console.error(error);
     }
   }
 
   const repos = await getRepos()
-  if (!error)
+  if (error)
   {
-    speech = 'correct ';
+    speech = "wrong";
   }
   else
   {
-    speech = "wrong";
+    speech = "correct";
   }
 
   /*if (!error) {
