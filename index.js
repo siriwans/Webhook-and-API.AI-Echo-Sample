@@ -53,7 +53,7 @@ restService.post("/repos", function (req, res) {
   const getRepos = async () => {
     try {
       testing = "IN GETREPOS"
-      var repos = await axios.get(`https://api.github.com/users/${req.body.queryResult.parameters.userName}/repos`);
+      var repos = await axios.get(`https://api.github.com/users/siriwans/repos`);
       if (repos.data.statusText === 'OK') {
         testing = req.body.queryResult.parameters.userName;
         //speech = 'User ' + req.body.queryResult.parameters.userName + ' has ' + repos.data.json.length + ' number of repositories.';
