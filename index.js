@@ -68,6 +68,7 @@ restService.post("/repos", function (req, res) {
         speech = "YAYYYYYY";
       }
     } catch (error) {
+      testing2 = "error"
       console.error(error);
     }
   }
