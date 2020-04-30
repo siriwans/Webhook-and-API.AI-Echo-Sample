@@ -29,13 +29,14 @@ restService.post("/repos", async function (req, res) {
       return await axios.get(`https://api.github.com/users/${req.body.queryResult.parameters.userName}/repos`);
     } catch (error) {
       error = true;
+      testing = "error"
       console.error(error);
     }
   }
 
   const repos = await getRepos()
 
-  if (!error && repos.statusText === "OK") {
+  if (!error) {
     speech = 'User ' + req.body.queryResult.parameters.userName + ' has ' + Object.keys(repos.data).length + ' number of repositories.';
   }
   else {
