@@ -2,6 +2,7 @@
 
 const express = require("express");
 const bodyParser = require("body-parser");
+const axios = require("axios")
 
 const restService = express();
 
@@ -13,14 +14,35 @@ restService.use(
 
 restService.use(bodyParser.json());
 
-restService.post("/echo", function(req, res) {
+restService.post("/repos", function (req, res) {
   var speech =
     req.body.queryResult &&
-    req.body.queryResult.parameters &&
-    req.body.queryResult.parameters.echoText
-      ? req.body.queryResult.parameters.echoText
+      req.body.queryResult.parameters &&
+      req.body.queryResult.parameters.userName
+      ? req.body.queryResult.parameters.userName
       : "Seems like some problem. Speak again.";
-  
+
+  var username = req.body.queryResult.parameters.userName
+
+  const getRepos = async () => {
+    try {
+      return await axios.get(`https://api.github.com/users/${req.body.queryResult.parameters.userName}/repos`)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  const countRepos = async () => {
+    const repos = await getRepos()
+    if (repos.data.statusText === 'OK') {
+      speech = 'User ' + username + ' has ' + repos.data.json.length + ' number of repositories.';
+    }
+    else {
+      speech = 'Cannot get the number of repos for' + username
+    }
+  }
+
+  countRepos()
   var speechResponse = {
     google: {
       expectUserResponse: true,
@@ -35,7 +57,7 @@ restService.post("/echo", function(req, res) {
       }
     }
   };
-  
+
   return res.json({
     payload: speechResponse,
     //data: speechResponse,
@@ -46,7 +68,7 @@ restService.post("/echo", function(req, res) {
   });
 });
 
-restService.post("/audio", function(req, res) {
+restService.post("/audio", function (req, res) {
   var speech = "";
   switch (req.body.result.parameters.AudioSample.toLowerCase()) {
     //Speech Synthesis Markup Language 
@@ -139,7 +161,7 @@ restService.post("/audio", function(req, res) {
   });
 });
 
-restService.post("/video", function(req, res) {
+restService.post("/video", function (req, res) {
   return res.json({
     speech:
       '<speak>  <audio src="https://www.youtube.com/watch?v=VX7SSnvpj-8">did not get your MP3 audio file</audio></speak>',
@@ -149,7 +171,7 @@ restService.post("/video", function(req, res) {
   });
 });
 
-restService.post("/slack-test", function(req, res) {
+restService.post("/slack-test", function (req, res) {
   var slack_message = {
     text: "Details of JIRA board for Browse and Commerce",
     attachments: [
@@ -214,6 +236,6 @@ restService.post("/slack-test", function(req, res) {
   });
 });
 
-restService.listen(process.env.PORT || 8000, function() {
+restService.listen(process.env.PORT || 8000, function () {
   console.log("Server up and listening");
 });
