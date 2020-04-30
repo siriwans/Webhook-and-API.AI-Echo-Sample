@@ -35,12 +35,10 @@ restService.post("/repos", async function (req, res) {
 
   const repos = await getRepos()
 
-  if (!error && repos.data) {
-    testing = "inside1"
+  if (!error && repos.data.message !== "Not Found") {
     speech = 'User ' + req.body.queryResult.parameters.userName + ' has ' + Object.keys(repos.data).length + ' number of repositories.';
   }
   else {
-    testing = "inside2"
     speech = 'Cannot get number of repos for ' + req.body.queryResult.parameters.userName + "."
   }
 
