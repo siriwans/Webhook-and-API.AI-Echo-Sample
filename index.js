@@ -21,38 +21,12 @@ restService.post("/repos", function (req, res) {
       req.body.queryResult.parameters.userName
       ? req.body.queryResult.parameters.userName
       : "Seems like some problem. Speak again.";
-  if (speech === "Seems like some problem. Speak again.")
-  {
-    var speechResponse = {
-      google: {
-        expectUserResponse: true,
-        richResponse: {
-          items: [
-            {
-              simpleResponse: {
-                textToSpeech: speech
-              }
-            }
-          ]
-        }
-      }
-    };
-  
-    return res.json({
-      payload: speechResponse,
-      //data: speechResponse,
-      fulfillmentText: speech,
-      speech: speech,
-      displayText: speech,
-      source: "webhook-echo-sample"
-    });
-  }*/
+  */
 
   var testing = "";
   var testing2 = "nothing";
 
-  async function getRepos() 
-  {
+  const getRepos = async () => {
     try {
       testing = "IN GETREPOS"
       var repos = await axios.get('https://api.github.com/users/siriwans/repos');
@@ -82,8 +56,8 @@ restService.post("/repos", function (req, res) {
       speech = "YAYYYYYY";
     }*/
   }
-
-  await getRepos();
+  
+  getRepos().then(response => console.log(response));
 
   var speechResponse = {
     google: {
