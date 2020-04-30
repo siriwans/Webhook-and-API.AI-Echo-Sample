@@ -22,6 +22,7 @@ restService.post("/repos", async function (req, res) {
     : "Seems like some problem. Speak again.";
 
   var testing = 'nothing';
+  var testing2 = 'uhhhh'
   var error = false;
 
   const getRepos = async () => {
@@ -37,7 +38,7 @@ restService.post("/repos", async function (req, res) {
   }
 
   const repos = await getRepos()
-  testing = error.toString();
+  testing2 = error.toString();
   if (error)
   {
     speech = "wrong";
@@ -71,7 +72,7 @@ restService.post("/repos", async function (req, res) {
     //data: speechResponse,
     fulfillmentText: speech,
     speech: speech,
-    displayText: testing,
+    displayText: testing + testing2,
     source: "webhook-echo-sample"
   });
 });
