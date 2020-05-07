@@ -62,7 +62,7 @@ restService.post( "/", async function (req, res) {
 
   if (intent === 'open issues in repo')
   {
-    var speech = req.body.queryResult &&
+    speech = req.body.queryResult &&
     req.body.queryResult.parameters &&
     req.body.queryResult.parameters.owner && 
     req.body.queryResult.parameters.repo
