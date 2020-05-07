@@ -14,30 +14,31 @@ restService.use(
 
 restService.use(bodyParser.json());
 
-restService.post( "/repos", async function (req, res) {
-  var intent = req.body.queryResult && 
-  req.body.queryResult.intent && 
-  req.body.queryResult.intent.displayName 
-  ? req.body.queryResult.intent.displayName 
-  :  "No intent." 
-  var speech = "A problem occured. Intent: " + intent
+restService.post( "/", async function (req, res) {
+    var intent = req.body.queryResult && 
+    req.body.queryResult.intent && 
+    req.body.queryResult.intent.displayName 
+    ? req.body.queryResult.intent.displayName 
+    :  "No intent." 
+    var speech = "A problem occured. Intent: " + intent
 
-  if (intent === 'number of repos for user')
-  {
-      speech = req.body.queryResult &&
+    if (intent === 'number of repos for user')
+    {
+      var speech = req.body.queryResult &&
       req.body.queryResult.parameters &&
       req.body.queryResult.parameters.userName
       ? req.body.queryResult.parameters.userName
       : "Seems like some problem. Speak again.";
 
-    // speech = req.body.queryResult &&
+    // var speech = req.body.queryResult &&
     // req.body.queryResult.parameters &&
     // req.body.userName
     // ? req.body.userName
     // : "Seems like some problem. Speak again.";
 
     var myerror = false;
-    var username = req.body.userName
+    console.log(speech)
+    var username = req.body.queryResult.parameters.userName
 
     const getRepos = async () => {
       try {
@@ -80,7 +81,7 @@ restService.post( "/repos", async function (req, res) {
     //data: speechResponse,
     fulfillmentText: speech,
     speech: speech,
-    displayText: testing + testing2,
+    displayText: speech,
     source: "webhook-echo-sample"
   });
 });
