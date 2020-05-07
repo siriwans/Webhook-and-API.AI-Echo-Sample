@@ -39,6 +39,31 @@ restService.post( "/", async function (req, res) {
       ? req.body.queryResult.parameters.userName
       : "Seems like some problem. Speak again.";
 
+
+      var speechResponse = {
+        google: {
+          expectUserResponse: true,
+          richResponse: {
+            items: [
+              {
+                simpleResponse: {
+                  textToSpeech: speech
+                }
+              }
+            ]
+          }
+        }
+      };
+    
+      return res.json({
+        payload: speechResponse,
+        //data: speechResponse,
+        fulfillmentText: speech,
+        speech: speech,
+        displayText: testing,
+        source: "webhook-echo-sample"
+      });
+
       var myerror = false;
       var username = req.body.queryResult.parameters.userName
 
