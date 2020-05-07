@@ -27,6 +27,8 @@ restService.post( "/", async function (req, res) {
     :  "No intent." */
 
 
+    var testing = "nothing."
+
     var speech = "A problem occured. Intent: " + intent
 
     if (intent === 'number of repos for user')
@@ -66,7 +68,8 @@ restService.post( "/", async function (req, res) {
     req.body.queryResult.parameters.repo
     ? req.body.queryResult.parameters.owner
     : "Seems like some problem. Speak again.";
-
+    
+    testing = testing + " passed inputs."
     /*var speech = req.body.queryResult &&
     req.body.queryResult.parameters &&
     req.body.owner &&
@@ -74,8 +77,6 @@ restService.post( "/", async function (req, res) {
     ? req.body.owner
     : "Seems like some problem. Speak again.";*/
     
-    console.log("PASSED GETTING INPUTS")
-
     var myerror = false;
     var owner = req.body.queryResult.parameters.owner
     var repo = req.body.queryResult.parameters.repo
@@ -84,6 +85,7 @@ restService.post( "/", async function (req, res) {
 
     const getIssues = async () => {
       try {
+        testing = testing + " in getIssues()."
         return await axios.get(`https://api.github.com/repos/${owner}/${repo}/issues`);
       } catch (error) {
         myerror = true;
@@ -98,7 +100,7 @@ restService.post( "/", async function (req, res) {
     {
       var count = 0;
       var json = issues.data;
-
+      testing = testing + " counting!!!!"
       for(var i = 0; i < json.length; i++) {
         var obj = json[i];
         if (obj.state === 'open')
@@ -132,7 +134,7 @@ restService.post( "/", async function (req, res) {
     //data: speechResponse,
     fulfillmentText: speech,
     speech: speech,
-    displayText: speech,
+    displayText: testing,
     source: "webhook-echo-sample"
   });
 });
