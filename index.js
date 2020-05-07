@@ -14,7 +14,7 @@ restService.use(
 
 restService.use(bodyParser.json());
 
-restService.post(async function (req, res) {
+restService.post("", async function (req, res) {
   var intent = req.body.queryResult && 
   req.body.queryResult.intent && 
   req.body.queryResult.intent.displayName 
