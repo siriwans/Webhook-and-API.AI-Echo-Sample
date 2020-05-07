@@ -39,26 +39,26 @@ restService.post( "/", async function (req, res) {
       ? req.body.queryResult.parameters.userName
       : "Seems like some problem. Speak again.";
 
-    var myerror = false;
-    var username = req.body.queryResult.parameters.userName
+      var myerror = false;
+      var username = req.body.queryResult.parameters.userName
 
-    const getRepos = async () => {
-      try {
-        return await axios.get(`https://api.github.com/users/${username}/repos`);
-      } catch (error) {
-        myerror = true;
-        speech = 'Cannot get number of repos for ' + username + '.';
-        console.error("ERROR OCCURED: " + error);
+      const getRepos = async () => {
+        try {
+          return await axios.get(`https://api.github.com/users/${username}/repos`);
+        } catch (error) {
+          myerror = true;
+          speech = 'Cannot get number of repos for ' + username + '.';
+          console.error("ERROR OCCURED: " + error);
+        }
+      }
+
+      const repos = await getRepos()
+
+      if (!myerror)
+      {
+        speech = 'User ' + username + ' has ' + Object.keys(repos.data).length + ' number of repositories.';
       }
     }
-
-    const repos = await getRepos()
-
-    if (!myerror)
-    {
-      speech = 'User ' + username + ' has ' + Object.keys(repos.data).length + ' number of repositories.';
-    }
-  }
 
   if (intent === 'open issues in repo')
   {
@@ -78,18 +78,21 @@ restService.post( "/", async function (req, res) {
     : "Seems like some problem. Speak again.";*/
     
     var myerror = false;
-    var owner = req.body.queryResult.parameters.owner
-    var repo = req.body.queryResult.parameters.repo
+    // var owner = req.body.queryResult.parameters.owner;
+    // var repo = req.body.queryResult.parameters.repo;
     // var owner = req.body.owner
     // var repo = req.body.repo
 
-    const getIssues = async () => {
-      try {
+    const getIssues = async () => 
+    {
+      try 
+      {
         testing = testing + " in getIssues()."
-        return await axios.get(`https://api.github.com/repos/${owner}/${repo}/issues`);
-      } catch (error) {
+        return await axios.get(`https://api.github.com/repos/${req.body.queryResult.parameters.owner}/${req.body.queryResult.parameters.repo}/issues`);
+      } catch (error) 
+      {
         myerror = true;
-        speech = 'Cannot get number of open issues for the repo ' + repo + ' under owner ' + owner + '.';
+        speech = 'Cannot get number of open issues for the repo ' + req.body.queryResult.parameters.repo + ' under owner ' + req.body.queryResult.parameters.owner + '.';
         console.error("ERROR OCCURED: " + error);
       }
     }
@@ -109,7 +112,7 @@ restService.post( "/", async function (req, res) {
         }
       }
 
-      speech = owner + "/" + repo + " has " + count + " open issues."
+      speech = req.body.queryResult.parameters.owner + "/" + req.body.queryResult.parameters.repo + " has " + count + " open issues."
     }
   }
 
