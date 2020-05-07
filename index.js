@@ -78,7 +78,7 @@ restService.post( "/", async function (req, res) {
 
     var myerror = false;
     var owner = req.body.queryResult.parameters.owner
-    var repo = eq.body.queryResult.parameters.repo
+    var repo = req.body.queryResult.parameters.repo
     // var owner = req.body.owner
     // var repo = req.body.repo
 
