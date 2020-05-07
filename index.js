@@ -24,7 +24,7 @@ restService.post( "/repos", async function (req, res) {
 
   if (intent === 'number of repos for user')
   {
-    var speech = req.body.queryResult &&
+      speech = req.body.queryResult &&
       req.body.queryResult.parameters &&
       req.body.queryResult.parameters.userName
       ? req.body.queryResult.parameters.userName
