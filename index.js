@@ -19,25 +19,25 @@ restService.post( "/", async function (req, res) {
     req.body.queryResult.intent && 
     req.body.queryResult.intent.displayName 
     ? req.body.queryResult.intent.displayName 
-    :  "No intent." 
+    :  "No intent."
+
+    /*var intent = req.body.queryResult && 
+    req.body.intent
+    ? req.body.intent 
+    :  "No intent." */
+
+
     var speech = "A problem occured. Intent: " + intent
 
     if (intent === 'number of repos for user')
     {
-      var speech = req.body.queryResult &&
+      speech = req.body.queryResult &&
       req.body.queryResult.parameters &&
       req.body.queryResult.parameters.userName
       ? req.body.queryResult.parameters.userName
       : "Seems like some problem. Speak again.";
 
-    // var speech = req.body.queryResult &&
-    // req.body.queryResult.parameters &&
-    // req.body.userName
-    // ? req.body.userName
-    // : "Seems like some problem. Speak again.";
-
     var myerror = false;
-    console.log(speech)
     var username = req.body.queryResult.parameters.userName
 
     const getRepos = async () => {
@@ -58,7 +58,58 @@ restService.post( "/", async function (req, res) {
     }
   }
 
-  //if (intent === 'number of repos for user')
+  if (intent === 'open issues in repo')
+  {
+    var speech = req.body.queryResult &&
+    req.body.queryResult.parameters &&
+    req.body.queryResult.parameters.owner && 
+    req.body.queryResult.parameters.repo
+    ? req.body.queryResult.parameters.owner
+    : "Seems like some problem. Speak again.";
+
+    /*var speech = req.body.queryResult &&
+    req.body.queryResult.parameters &&
+    req.body.owner &&
+    req.body.repo
+    ? req.body.owner
+    : "Seems like some problem. Speak again.";*/
+    
+    console.log("PASSED GETTING INPUTS")
+
+    var myerror = false;
+    var owner = req.body.queryResult.parameters.owner
+    var repo = eq.body.queryResult.parameters.repo
+    // var owner = req.body.owner
+    // var repo = req.body.repo
+
+    const getIssues = async () => {
+      try {
+        return await axios.get(`https://api.github.com/repos/${owner}/${repo}/issues`);
+      } catch (error) {
+        myerror = true;
+        speech = 'Cannot get number of open issues for the repo ' + repo + ' under owner ' + owner + '.';
+        console.error("ERROR OCCURED: " + error);
+      }
+    }
+
+    const issues = await getIssues()
+
+    if (!myerror)
+    {
+      var count = 0;
+      var json = issues.data;
+
+      for(var i = 0; i < json.length; i++) {
+        var obj = json[i];
+        if (obj.state === 'open')
+        {
+          count = count + 1;
+        }
+      }
+
+      speech = owner + "/" + repo + " has " + count + " open issues."
+    }
+  }
 
 
   var speechResponse = {
