@@ -62,36 +62,12 @@ restService.post( "/", async function (req, res) {
 
   if (intent === 'open issues in repo')
   {
-    speech = req.body.queryResult &&
+    var speech = req.body.queryResult &&
     req.body.queryResult.parameters &&
     req.body.queryResult.parameters.owner && 
     req.body.queryResult.parameters.repo
     ? req.body.queryResult.parameters.owner
     : "Seems like some problem. Speak again.";
-
-    var speechResponse = {
-      google: {
-        expectUserResponse: true,
-        richResponse: {
-          items: [
-            {
-              simpleResponse: {
-                textToSpeech: speech
-              }
-            }
-          ]
-        }
-      }
-    };
-  
-    return res.json({
-      payload: speechResponse,
-      //data: speechResponse,
-      fulfillmentText: speech,
-      speech: speech,
-      displayText: testing,
-      source: "webhook-echo-sample"
-    });
     
     testing = testing + " passed inputs."
     /*var speech = req.body.queryResult &&
@@ -102,8 +78,8 @@ restService.post( "/", async function (req, res) {
     : "Seems like some problem. Speak again.";*/
     
     var myerror = false;
-    // var owner = req.body.queryResult.parameters.owner;
-    // var repo = req.body.queryResult.parameters.repo;
+    var owner = req.body.queryResult.parameters.owner;
+    var repo = req.body.queryResult.parameters.repo;
     // var owner = req.body.owner
     // var repo = req.body.repo
 
@@ -112,11 +88,11 @@ restService.post( "/", async function (req, res) {
       try 
       {
         testing = testing + " in getIssues()."
-        return await axios.get(`https://api.github.com/repos/${req.body.queryResult.parameters.owner}/${req.body.queryResult.parameters.repo}/issues`);
+        return await axios.get(`https://api.github.com/repos/${owner}/${repo}/issues`);
       } catch (error) 
       {
         myerror = true;
-        speech = 'Cannot get number of open issues for the repo ' + req.body.queryResult.parameters.repo + ' under owner ' + req.body.queryResult.parameters.owner + '.';
+        speech = 'Cannot get number of open issues for the repo ' + repo + ' under owner ' + owner + '.';
         console.error("ERROR OCCURED: " + error);
       }
     }
@@ -136,7 +112,7 @@ restService.post( "/", async function (req, res) {
         }
       }
 
-      speech = req.body.queryResult.parameters.owner + "/" + req.body.queryResult.parameters.repo + " has " + count + " open issues."
+      speech = owner + "/" + repo + " has " + count + " open issues."
     }
   }
 
