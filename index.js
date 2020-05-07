@@ -87,8 +87,8 @@ restService.post( "/", async function (req, res) {
     {
       try 
       {
-        testing = testing + " in getIssues()."
-        return await axios.get(`https://api.github.com/repos/mmachiya/feather/issues`);
+        testing = testing + " in getIssues(). " + owner + repo
+        return await axios.get(`https://api.github.com/repos/${owner}/${repo}/issues`);
       } catch (error) 
       {
         myerror = true;
