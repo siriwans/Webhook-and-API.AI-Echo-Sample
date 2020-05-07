@@ -14,33 +14,51 @@ restService.use(
 
 restService.use(bodyParser.json());
 
-restService.post("/repos", async function (req, res) {
-  var speech = req.body.queryResult &&
-    req.body.queryResult.parameters &&
-    req.body.queryResult.parameters.userName
-    ? req.body.queryResult.parameters.userName
-    : "Seems like some problem. Speak again.";
+restService.post(async function (req, res) {
+  var intent = req.body.queryResult && 
+  req.body.queryResult.intent && 
+  req.body.queryResult.intent.displayName 
+  ? req.body.queryResult.intent.displayName 
+  :  "No intent." 
+  var speech = "A problem occured. Intent: " + intent
 
-  var testing = 'nothing';
-  var testing2 = 'uhhhh'
-  var myerror = false;
+  if (intent === 'number of repos for user')
+  {
+    var speech = req.body.queryResult &&
+      req.body.queryResult.parameters &&
+      req.body.queryResult.parameters.userName
+      ? req.body.queryResult.parameters.userName
+      : "Seems like some problem. Speak again.";
 
-  const getRepos = async () => {
-    try {
-      return await axios.get(`https://api.github.com/users/${req.body.queryResult.parameters.userName}/repos`);
-    } catch (error) {
-      myerror = true;
-      testing = "error";
-      speech = 'Cannot get number of repos for ' + req.body.queryResult.parameters.userName + '.';
-      console.error(error);
+    // speech = req.body.queryResult &&
+    // req.body.queryResult.parameters &&
+    // req.body.userName
+    // ? req.body.userName
+    // : "Seems like some problem. Speak again.";
+
+    var myerror = false;
+    var username = req.body.userName
+
+    const getRepos = async () => {
+      try {
+        return await axios.get(`https://api.github.com/users/${username}/repos`);
+      } catch (error) {
+        myerror = true;
+        speech = 'Cannot get number of repos for ' + username + '.';
+        console.error("ERROR OCCURED: " + error);
+      }
+    }
+
+    const repos = await getRepos()
+
+    if (!myerror)
+    {
+      speech = 'User ' + username + ' has ' + Object.keys(repos.data).length + ' number of repositories.';
     }
   }
 
-  const repos = await getRepos()
-  if (!myerror)
-  {
-    speech = 'User ' + req.body.queryResult.parameters.userName + ' has ' + Object.keys(repos.data).length + ' number of repositories.';
-  }
+  //if (intent === 'number of repos for user')
+
 
   var speechResponse = {
     google: {
@@ -69,5 +87,5 @@ restService.post("/repos", async function (req, res) {
 
 
 restService.listen(process.env.PORT || 8000, function () {
-  console.log("Server up and listening");
+  console.log("Server up and listening!");
 });
