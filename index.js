@@ -14,16 +14,16 @@ restService.use(
 
 restService.use(bodyParser.json());
 
-restService.post("", async function (req, res) {
-  // var intent = req.body.queryResult && 
-  // req.body.queryResult.intent && 
-  // req.body.queryResult.intent.displayName 
-  // ? req.body.queryResult.intent.displayName 
-  // :  "No intent." 
-  // var speech = "A problem occured. Intent: " + intent
+restService.post( "/",async function (req, res) {
+  var intent = req.body.queryResult && 
+  req.body.queryResult.intent && 
+  req.body.queryResult.intent.displayName 
+  ? req.body.queryResult.intent.displayName 
+  :  "No intent." 
+  var speech = "A problem occured. Intent: " + intent
 
-  //if (intent === 'number of repos for user')
-  //{
+  if (intent === 'number of repos for user')
+  {
     var speech = req.body.queryResult &&
       req.body.queryResult.parameters &&
       req.body.queryResult.parameters.userName
@@ -55,7 +55,7 @@ restService.post("", async function (req, res) {
     {
       speech = 'User ' + username + ' has ' + Object.keys(repos.data).length + ' number of repositories.';
     }
-  //}
+  }
 
   //if (intent === 'number of repos for user')
 
